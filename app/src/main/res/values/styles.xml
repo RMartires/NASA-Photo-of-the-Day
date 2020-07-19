@@ -20,4 +20,16 @@
         <item name="android:background">@drawable/calender_selector</item>
     </style>
 
+    <style name="playpause">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/play_selector</item>
+    </style>
+
+    <style name="zoombutton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/zoom_selector</item>
+    </style>
+
 </resources>

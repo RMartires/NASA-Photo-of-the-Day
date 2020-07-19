@@ -2,6 +2,9 @@ package com.example.nasaphotooftheday.POD
 
 import android.util.Log
 import androidx.lifecycle.LiveData
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class PODRepository constructor(private val podDao: PODDao){
     var webApi = WebApi()
@@ -20,9 +23,15 @@ class PODRepository constructor(private val podDao: PODDao){
     }
 
     suspend fun getWithDate(date:String){
-        val response = webApi.ProvideWebApi().getWithDate("WIELb0gec4r9BI0okJmeAol74BfYjlvnphgp6RU0",date).execute()
-        Log.d("res",response.body().toString())
-        podDao.save(response.body()!!)
+        try{
+            val response = webApi.ProvideWebApi().getWithDate("WIELb0gec4r9BI0okJmeAol74BfYjlvnphgp6RU0",date).execute()
+            Log.d("res",response.body().toString())
+            podDao.save(response.body()!!)
+            podDao.loadWithDate(date)
+        }catch (e:NullPointerException){
+            Log.d("err",e.toString())
+        }
+
     }
 
 }

@@ -3,6 +3,7 @@ package com.example.nasaphotooftheday.POD
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.*
+import com.example.nasaphotooftheday.MainActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Dispatchers.IO
@@ -13,6 +14,8 @@ import kotlin.random.Random
 import kotlin.random.Random.Default.nextInt
 
 class PODViewModel constructor(application: Application) : AndroidViewModel(application) {
+
+    public var pods = ArrayList<POD>()
 
     private var podRepository: PODRepository
     public var pod : LiveData<List<POD>> = liveData(context = viewModelScope.coroutineContext + Dispatchers.IO) {

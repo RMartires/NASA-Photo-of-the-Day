@@ -3,6 +3,7 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import androidx.room.OnConflictStrategy.REPLACE
+import retrofit2.Call
 
 @Database(entities = [POD::class], version = 1)
 abstract class PODDatabase: RoomDatabase() {
@@ -41,5 +42,8 @@ interface PODDao {
 
     @Query("SELECT * FROM pod")
     fun load():LiveData<List<POD>>
+
+    @Query("SELECT * FROM pod WHERE date= :date")
+    fun loadWithDate(date:String):LiveData<List<POD>>
 
 }
