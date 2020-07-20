@@ -2,12 +2,9 @@ package com.example.nasaphotooftheday
 
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
-import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.icu.util.Calendar
-import android.net.ConnectivityManager
-import android.net.NetworkInfo
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -43,11 +40,12 @@ class MainActivity : AppCompatActivity() {
 
         var mProgressBarManager = ProgressBarManager()
         mProgressBarManager.setProgressBarView(progressBar)
+        mProgressBarManager.show()
 
         imageView.hierarchy.setProgressBarImage(ProgressBarDrawable())
 
         mPODViewModel.pod.observe(this, Observer<List<POD>>() {
-            Log.d("res", it.toString())
+            //Log.d("res", it.toString())
             mPODViewModel.pods.add(it[it.size-1])
             title_view.setBackgroundResource(R.color.text_backdrop)
             title_view.setText(it[it.size-1].title)
@@ -86,7 +84,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun OnPlayOrZoom(url:String,meidatype:String,hdurl:String,activity: MainActivity){
         if(meidatype=="video"){
-            Log.d("poz",getVideoID(url))
+            //Log.d("poz",getVideoID(url))
             val intent = YouTubeStandalonePlayer.createVideoIntent(
                 activity,
                 YoutubeConfig().getApiKey(),

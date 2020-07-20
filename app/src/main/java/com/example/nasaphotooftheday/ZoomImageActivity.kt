@@ -2,7 +2,6 @@ package com.example.nasaphotooftheday
 
 import android.net.Uri
 import android.os.Bundle
-import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.leanback.app.ProgressBarManager
 import com.github.piasy.biv.BigImageViewer
@@ -10,7 +9,6 @@ import com.github.piasy.biv.loader.ImageLoader
 import com.github.piasy.biv.loader.fresco.FrescoImageLoader
 import com.github.ybq.android.spinkit.sprite.Sprite
 import com.github.ybq.android.spinkit.style.CubeGrid
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_zoom_image.*
 import java.io.File
 

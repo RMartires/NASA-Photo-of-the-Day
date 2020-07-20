@@ -17,7 +17,6 @@ import com.example.nasaphotooftheday.POD.PODViewModel
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.github.ybq.android.spinkit.sprite.Sprite
 import com.github.ybq.android.spinkit.style.CubeGrid
-import com.github.ybq.android.spinkit.style.DoubleBounce
 import kotlinx.android.synthetic.main.activity_splash.*
 import java.lang.String
 

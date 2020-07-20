@@ -3,15 +3,8 @@ package com.example.nasaphotooftheday.POD
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.*
-import com.example.nasaphotooftheday.MainActivity
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import kotlin.random.Random
-import kotlin.random.Random.Default.nextInt
 
 class PODViewModel constructor(application: Application) : AndroidViewModel(application) {
 
@@ -23,7 +16,7 @@ class PODViewModel constructor(application: Application) : AndroidViewModel(appl
             var temppod = getPOD()
             emitSource(temppod)
         }catch (e:NullPointerException){
-         Log.d("d","d")
+         //Log.d("d","d")
         }
     }
 
