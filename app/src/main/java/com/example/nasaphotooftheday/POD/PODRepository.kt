@@ -17,9 +17,13 @@ class PODRepository constructor(private val podDao: PODDao){
 
 
     suspend fun refreshPOD() {
-        val response = webApi.ProvideWebApi().getPOD("WIELb0gec4r9BI0okJmeAol74BfYjlvnphgp6RU0").execute()
-        //Log.d("res refresh",response.body().toString())
-        podDao.save(response.body()!!)
+        try {
+            val response =
+                webApi.ProvideWebApi().getPOD("WIELb0gec4r9BI0okJmeAol74BfYjlvnphgp6RU0").execute()
+            podDao.save(response.body()!!)
+        }catch (e:NullPointerException){
+            Log.d("err",e.toString())
+        }
     }
 
     suspend fun getWithDate(date:String){

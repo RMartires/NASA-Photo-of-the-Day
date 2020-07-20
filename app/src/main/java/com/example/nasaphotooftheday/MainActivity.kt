@@ -5,6 +5,7 @@ import android.app.DatePickerDialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.icu.util.Calendar
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -16,33 +17,37 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.leanback.app.ProgressBarManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.bumptech.glide.load.resource.bitmap.CenterCrop
-import com.bumptech.glide.request.RequestOptions
 import com.example.nasaphotooftheday.POD.POD
 import com.example.nasaphotooftheday.POD.PODViewModel
-import com.example.nasaphotooftheday.glide.GlideImageLoader
+import com.facebook.drawee.backends.pipeline.Fresco
+import com.facebook.drawee.drawable.ProgressBarDrawable
+import com.github.piasy.biv.BigImageViewer
+import com.github.piasy.biv.loader.ImageLoader
+import com.github.piasy.biv.view.BigImageView
 import com.github.ybq.android.spinkit.sprite.Sprite
 import com.github.ybq.android.spinkit.style.CubeGrid
 import com.google.android.youtube.player.YouTubeStandalonePlayer
 import kotlinx.android.synthetic.main.activity_main.*
+import java.io.File
 
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var mPODViewModel: PODViewModel
-    @SuppressLint("ResourceType")
+    var mImageProgressBarManager = ProgressBarManager()
+
     @RequiresApi(Build.VERSION_CODES.N)
+    @SuppressLint("ResourceType")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Fresco.initialize(this);
         setContentView(R.layout.activity_main)
         mPODViewModel= ViewModelProvider(this).get(PODViewModel::class.java)
 
         var mProgressBarManager = ProgressBarManager()
         mProgressBarManager.setProgressBarView(progressBar)
-        //mProgressBarManager.show()
 
-        val cubeGrid: Sprite = CubeGrid()
-        imageProgressBar.indeterminateDrawable = cubeGrid
+        imageView.hierarchy.setProgressBarImage(ProgressBarDrawable())
 
         mPODViewModel.pod.observe(this, Observer<List<POD>>() {
             Log.d("res", it.toString())
@@ -55,31 +60,20 @@ class MainActivity : AppCompatActivity() {
             //play/zoom button
             var url = it[it.size-1].url
             var mediatype =it[it.size-1].media_type
+            var hdurl = it[it.size-1].hdurl
 
             playbutton.setOnClickListener {
-                OnPlayOrZoom(url,mediatype,this)
+                OnPlayOrZoom(url,mediatype,hdurl,this)
             }
 
             mProgressBarManager.hide()
 
-            var glideImageLoader: GlideImageLoader? = null
-
             if(it[it.size-1].media_type=="video"){
-
                 playbutton.setBackgroundResource(R.drawable.ic_play)
-                glideImageLoader = GlideImageLoader(imageView, imageProgressBar)
-                glideImageLoader.load(getVideoThumbnail(it[it.size-1].url),
-                    RequestOptions().transform(CenterCrop())
-                        .error(R.drawable.ic_error))
-
+                imageView.setImageURI(Uri.parse(getVideoThumbnail(it[it.size-1].url)))
             }else{
-
                 playbutton.setBackgroundResource(R.drawable.ic_zoom_unpressed)
-                glideImageLoader = GlideImageLoader(imageView, imageProgressBar)
-                glideImageLoader.load(it[it.size-1].hdurl,
-                    RequestOptions().transform(CenterCrop())
-                        .error(R.drawable.ic_error))
-
+                imageView.setImageURI(Uri.parse(it[it.size-1].hdurl))
             }
 
             //textView2.setText(it.discription)
@@ -93,7 +87,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun OnPlayOrZoom(url:String,meidatype:String,activity: MainActivity){
+    private fun OnPlayOrZoom(url:String,meidatype:String,hdurl:String,activity: MainActivity){
         if(meidatype=="video"){
             Log.d("poz",getVideoID(url))
             val intent = YouTubeStandalonePlayer.createVideoIntent(
@@ -104,7 +98,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }else{
             val intent = Intent(baseContext, ZoomImageActivity::class.java)
-            intent.putExtra("URL", url)
+            intent.putExtra("URL", hdurl)
             startActivity(intent)
         }
     }
@@ -193,6 +187,7 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
+
 
 
 }
