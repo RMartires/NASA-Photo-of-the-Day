@@ -69,6 +69,7 @@
             android:background="#00FFFFFF"
             android:clickable="true"
             android:scaleType="fitXY"
+            android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/calender_selector" />

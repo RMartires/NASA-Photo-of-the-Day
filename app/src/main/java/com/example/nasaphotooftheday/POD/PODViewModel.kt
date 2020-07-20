@@ -19,8 +19,12 @@ class PODViewModel constructor(application: Application) : AndroidViewModel(appl
 
     private var podRepository: PODRepository
     public var pod : LiveData<List<POD>> = liveData(context = viewModelScope.coroutineContext + Dispatchers.IO) {
-        var temppod = getPOD()
-        emitSource(temppod)
+        try{
+            var temppod = getPOD()
+            emitSource(temppod)
+        }catch (e:NullPointerException){
+         Log.d("d","d")
+        }
     }
 
     init {

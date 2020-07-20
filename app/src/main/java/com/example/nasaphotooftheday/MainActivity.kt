@@ -2,9 +2,12 @@ package com.example.nasaphotooftheday
 
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
+import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.icu.util.Calendar
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -21,14 +24,8 @@ import com.example.nasaphotooftheday.POD.POD
 import com.example.nasaphotooftheday.POD.PODViewModel
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.drawee.drawable.ProgressBarDrawable
-import com.github.piasy.biv.BigImageViewer
-import com.github.piasy.biv.loader.ImageLoader
-import com.github.piasy.biv.view.BigImageView
-import com.github.ybq.android.spinkit.sprite.Sprite
-import com.github.ybq.android.spinkit.style.CubeGrid
 import com.google.android.youtube.player.YouTubeStandalonePlayer
 import kotlinx.android.synthetic.main.activity_main.*
-import java.io.File
 
 
 class MainActivity : AppCompatActivity() {
@@ -56,7 +53,6 @@ class MainActivity : AppCompatActivity() {
             title_view.setText(it[it.size-1].title)
             nestedScrollView.setBackgroundResource(R.color.text_backdrop)
             explanation.setText(it[it.size-1].explanation)
-
             //play/zoom button
             var url = it[it.size-1].url
             var mediatype =it[it.size-1].media_type
@@ -78,6 +74,7 @@ class MainActivity : AppCompatActivity() {
 
             //textView2.setText(it.discription)
         })
+
 
         calenderButton.setOnClickListener {
             calendar(it,mProgressBarManager)
@@ -152,7 +149,6 @@ class MainActivity : AppCompatActivity() {
         var picker = DatePickerDialog(it.context, DatePickerDialog.OnDateSetListener() {
                 datePicker: DatePicker, i: Int, i1: Int, i2: Int ->
 
-            Log.d("datee",isDateValid(day,month+1,year,i,i1+1,i2).toString())
             if(isDateValid(day,month+1,year,i2,i1+1,i)){
                 var date =(i.toString()+"-"+(i1+1).toString()+"-"+i2.toString())
                 //Log.d("datel",date)

@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">NASA Photo of the Day</string>
+    <string name="visible">visible</string>
+    <string name="invisible">invisible</string>
 </resources>
